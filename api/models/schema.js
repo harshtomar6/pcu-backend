@@ -11,13 +11,26 @@ var dailyJournalSchema = new Schema({
 
 var journalEntrySchema = new Schema({
   date: {type: Date, default: Date.now},
-  name: String,
-  description: String,
+  particular: String,
   debit: Number,
   credit: Number  
 })
 
+var accountDetailSchema = new Schema({
+  date: {type: Date, default: Date.now},
+  particular: String,
+  debit: Number,
+  credit: Number
+})
+
+var accountSchema = new Schema({
+  name: {type: String, unique: true},
+  tag: String,
+  particulars: accountDetailSchema
+})
+
 module.exports = {
   dailyJournalSchema,
-  journalEntrySchema
+  journalEntrySchema,
+  accountSchema
 }
