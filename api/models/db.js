@@ -62,11 +62,11 @@ let saveJournalEntry = (data, callback) => {
       break;
     
     case 'Cash Paid':
-      particular = data.name+'A/C DR to Cash Account'
+      particular = data.name+' A/C DR to Cash Account'
       break;
 
     case 'Cheque Paid':
-      particular = data.name+'A/C DR to Bank Account'
+      particular = data.name+' A/C DR to Bank Account'
       break;
     
     case 'Salary Paid':
