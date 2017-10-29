@@ -76,6 +76,9 @@ let saveJournalEntry = (data, callback) => {
     case 'Cash Drawn':
       particular = 'Drawing Account DR to Bank Account'
       break;
+
+    case 'Expenses':
+      particular = 'Expenses Account DR to Bank Account'
   }
 
   var entry = new JournalEntry({_id: data.id, date: date, particular: particular, description: description, debit: debit, credit: credit})
