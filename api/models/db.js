@@ -21,8 +21,8 @@ let saveJournalEntry = (data, callback) => {
   var date = data.date;
   var particular = '';
   var description = data.description;
-  var debit = data.debit;
-  var credit = data.credit;
+  var debit = data.debit != 0 ? data.debit: data.credit;
+  var credit = data.credit !=0 ? data.credit: data.debit;
 
   switch(data.particular){
     case 'Goods Sold':
