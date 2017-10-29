@@ -48,29 +48,29 @@ let saveJournalEntry = (data, callback) => {
           particular = 'Purchase Account DR to Bank Account'; 
           break;
         case 'other':
-          particular = 'Purchase Account DR to '+data.name;
+          particular = 'Purchase Account DR to '+data.name+' A/C';
           break;
       }
       break;
 
     case 'Cash Recieved':
-      particular = 'Cash Account DR to '+data.name
+      particular = 'Cash Account DR to '+data.name+' A/C'
       break;
     
     case 'Cheque Recieved':
-      particular = 'Bank Account DR to '+data.name
+      particular = 'Bank Account DR to '+data.name+' A/C'
       break;
     
     case 'Cash Paid':
-      particular = data.name+' DR to Cash Account'
+      particular = data.name+'A/C DR to Cash Account'
       break;
 
     case 'Cheque Paid':
-      particular = data.name+' DR to Bank Account'
+      particular = data.name+'A/C DR to Bank Account'
       break;
     
     case 'Salary Paid':
-      particular = data.name+' DR to Salary Account'
+      particular = 'Salary Account DR to Bank Account'
       break;
     
     case 'Cash Drawn':
