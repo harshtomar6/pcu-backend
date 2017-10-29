@@ -19,8 +19,12 @@ router.post('/journal', (req, res, next) => {
   db.saveDailyJournal(req.body, (err) => {
     if(err)
       res.send({err: err, success: null})
-    else
-      res.send({err: null, success: 'Saved Successfully'})
+    else{
+      console.log(req.body)
+      db.saveJournalEntry(req.body, (err) => {
+        res.send({err: null, success: 'Saved Successfully'})
+      })
+    }
   })
 })
 

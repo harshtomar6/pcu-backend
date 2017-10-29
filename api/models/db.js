@@ -20,18 +20,68 @@ let saveDailyJournal = (data, callback) => {
 let saveJournalEntry = (data, callback) => {
   var date = data.date;
   var particular = '';
+  var description = data.description;
+  var debit = data.debit;
+  var credit = data.credit;
 
-  switch(data.type){
-    case 'cash':
+  switch(data.particular){
+    case 'Goods Sold':
+      switch(data.type){
+        case 'cash':
+          particular = 'Cash Account DR to Sales Account'
+          break;
+        case 'bank':
+          particular = 'Bank Account DR to Sales Account'
+          break;
+        case 'other':
+          particular = data.name+' A/C DR to Sales Account'
+          break;
+      }
+      break;
+    
+    case 'Goods Purchased':
+      switch(data.type){
+        case 'cash':
+          particular = 'Purchase Account DR to Cash Account';
+          break;
+        case 'bank':
+          particular = 'Purchase Account DR to Bank Account'; 
+          break;
+        case 'other':
+          particular = 'Purchase Account DR to '+data.name;
+          break;
+      }
+      break;
 
-    break;
-    case 'bank':
+    case 'Cash Recieved':
+      particular = 'Cash Account DR to '+data.name
+      break;
+    
+    case 'Cheque Recieved':
+      particular = 'Bank Account DR to '+data.name
+      break;
+    
+    case 'Cash Paid':
+      particular = data.name+' DR to Cash Account'
+      break;
 
-    break;
-    case 'none':
-      
-    break;
+    case 'Cheque Paid':
+      particular = data.name+' DR to Bank Account'
+      break;
+    
+    case 'Salary Paid':
+      particular = data.name+' DR to Salary Account'
+      break;
+    
+    case 'Cash Drawn':
+      particular = 'Drawing Account DR to Bank Account'
+      break;
   }
+
+  var entry = new JournalEntry({date: date, particular: particular, description: description, debit: debit, credit: credit})
+  entry.save((err, doc) => {
+    callback(err, doc);
+  })
 }
 
 //Add Accounts
