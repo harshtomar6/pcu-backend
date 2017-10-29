@@ -10,12 +10,13 @@ var dailyJournalSchema = new Schema({
 })
 
 var journalEntrySchema = new Schema({
+  _id: Schema.Types.ObjectId,
   date: {type: Date, default: Date.now},
   particular: String,
   description: String,
   debit: Number,
-  credit: Number  
-})
+  credit: Number 
+}, {_id: false})
 
 var accountDetailSchema = new Schema({
   date: {type: Date, default: Date.now},

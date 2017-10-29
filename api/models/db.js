@@ -78,7 +78,7 @@ let saveJournalEntry = (data, callback) => {
       break;
   }
 
-  var entry = new JournalEntry({date: date, particular: particular, description: description, debit: debit, credit: credit})
+  var entry = new JournalEntry({_id: data.id, date: date, particular: particular, description: description, debit: debit, credit: credit})
   entry.save((err, doc) => {
     callback(err, doc);
   })
@@ -126,6 +126,21 @@ function mapModel(tag){
   
 }
 
+//Delete Functions
+//Delete Daily Journal Entry
+let deleteDailyJournal = (id, callback) => {
+  DailyJournal.remove({_id: id}, (err, success) => {
+    callback(err, success)
+  })
+}
+
+//Delete Journal Entry
+let deleteJournalEntry = (id, callback) => {
+  JournalEntry.remove({_id: id}, (err, success) => {
+    callback(err, success)
+  })
+}
+
 //Exporting functions
 module.exports = {
   saveDailyJournal,
@@ -134,5 +149,7 @@ module.exports = {
   getDailyJournal,
   getJournalEntry,
   getAccount,
-  getAccountByName
+  getAccountByName,
+  deleteDailyJournal,
+  deleteJournalEntry
 }

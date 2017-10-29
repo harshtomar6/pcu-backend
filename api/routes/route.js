@@ -16,13 +16,16 @@ router.get('/', (req, res, next) => {
 
 //adds save daily journal data route
 router.post('/journal', (req, res, next) => {
-  db.saveDailyJournal(req.body, (err) => {
+  db.saveDailyJournal(req.body, (err, doc) => {
     if(err)
       res.send({err: err, success: null})
     else{
-      console.log(req.body)
-      db.saveJournalEntry(req.body, (err) => {
-        res.send({err: null, success: 'Saved Successfully'})
+      req.body.id = doc._id;
+      db.saveJournalEntry(req.body, (err, doc) => {
+        if(err)
+          res.send({err: err, success: null})
+        else
+          res.send({err: null, success: 'Saved Successfully'})
       })
     }
   })
@@ -35,6 +38,23 @@ router.get('/journal', (req, res, next) => {
       res.send(doc)
     else
       res.send(err)
+  })
+})
+
+//Delete Daily Journal route
+router.post('/delete-journal', (req, res, next) => {
+  db.deleteDailyJournal(req.body.id, (err, success) => {
+    if(err)
+      res.send({err: err, success: null})
+    else{
+      db.deleteJournalEntry(req.body.id, (err, succ) => {
+        if(err)
+          res.send({err: err, success: null})
+        else
+          res.send({err: null, success: 'Deleted'})  
+      })
+      
+    }
   })
 })
 
