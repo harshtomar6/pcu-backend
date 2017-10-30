@@ -23,7 +23,19 @@ let saveJournalEntry = (data, callback) => {
   var description = data.description;
   var debit = data.debit != 0 ? data.debit: data.credit;
   var credit = data.credit !=0 ? data.credit: data.debit;
+  var particular = getJournalEntryParticular({particular: data.particular, name: data.name, type: data.type});
+  
 
+  var entry = new JournalEntry({_id: data.id, date: date, particular: particular, description: description, debit: debit, credit: credit})
+  entry.save((err, doc) => {
+    callback(err, doc);
+  })
+}
+
+//Convert Daily Journal to Journal Entry
+let getJournalEntryParticular = (data) => {
+  var particular = ''
+  
   switch(data.particular){
     case 'Goods Sold':
       switch(data.type){
@@ -81,10 +93,7 @@ let saveJournalEntry = (data, callback) => {
       particular = 'Expenses Account DR to Bank Account'
   }
 
-  var entry = new JournalEntry({_id: data.id, date: date, particular: particular, description: description, debit: debit, credit: credit})
-  entry.save((err, doc) => {
-    callback(err, doc);
-  })
+  return particular;
 }
 
 //Add Accounts
@@ -124,10 +133,39 @@ let getAccountByName = (name, callback) => {
   })
 }
 
-//Utility functions
-function mapModel(tag){
-  
+
+//Update Functions
+//Update Daily Journal
+let updateDailyJournal = (data, callback) => {
+  DailyJournal.findOne({_id: data.id}, (err, entry) => {
+    entry.date = data.date;
+    entry.name = data.name;
+    entry.particular = data.particular;
+    entry.description = data.description;
+    entry.debit = data.debit;
+    entry.credit = data.credit;
+
+    entry.save((err, success) => {
+      callback(err, success);
+    });
+  })
 }
+
+//Update Journal Entry
+let updateJournalEntry = (data, callback) => {
+  JournalEntry.findOne({_id: data.id}, (err, entry) => {
+    entry.date = data.date;
+    entry.particular = getJournalEntryParticular({particular: data.particular, name: data.name, type: data.type});
+    entry.description = data.description;
+    entry.debit = data.debit != 0 ? data.debit: data.credit;
+    entry.credit = data.credit !=0 ? data.credit: data.debit;
+
+    entry.save((err, success) => {
+      callback(err, success)
+    })
+  })  
+}
+
 
 //Delete Functions
 //Delete Daily Journal Entry
@@ -153,6 +191,8 @@ module.exports = {
   getJournalEntry,
   getAccount,
   getAccountByName,
+  updateJournalEntry,
+  updateDailyJournal,
   deleteDailyJournal,
   deleteJournalEntry
 }

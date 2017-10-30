@@ -41,6 +41,22 @@ router.get('/journal', (req, res, next) => {
   })
 })
 
+//Update Daily Journal route
+router.post('/update-journal', (req, res, next) => {
+  db.updateDailyJournal(req.body, (err, success) => {
+    if(err)
+      res.send({err: err, success: null});
+    else{
+      db.updateJournalEntry(req.body, (err, success) => {
+        if(err)
+          res.send({err: err, success: null})
+        else
+          res.send({err: null, success: 'Updated Successfully'})
+      })
+    }
+  })
+})
+
 //Delete Daily Journal route
 router.post('/delete-journal', (req, res, next) => {
   db.deleteDailyJournal(req.body.id, (err, success) => {
