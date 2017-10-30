@@ -4,6 +4,8 @@ var Schema = mongoose.Schema
 var dailyJournalSchema = new Schema({
   date: {type: Date, default: Date.now},
   name: String,
+  type: String,
+  description: String,
   particular: String,
   debit: Number,
   credit: Number
